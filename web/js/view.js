@@ -24,7 +24,7 @@ $(document).ready(function () {
                         }
                         layout += `
 <div>
-    <p>` + data.comment[i].id + `Автор: ` + data.comment[i].user.name + `</p>
+    <p>` + (i+1) + `Автор: ` + data.comment[i].user.name + `</p>
     <p>Комментарий: <strong>` + data.comment[i].message + `</strong></p>
     <ul>                    
     ` + images + `

@@ -37,7 +37,7 @@ use yii\widgets\Pjax;
 <h2><strong>Комментарии: </strong></h2>
 <div id="comments">
     <?php if (count($model['comments']) == 0): ?>
-        <h3><?php echo 'Отсутствуют :( ' ?></h3>
+        <h3><?php echo '' ?></h3>
     <?php else: ?>
     <?php foreach ($model['comments'] as $key =>$comment): ?>
         <div>

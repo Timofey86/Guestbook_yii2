@@ -54,7 +54,7 @@ $(document).ready(function () {
                         layout += `
 </div>
 <div>
-    <a href="/feedback/view/?id=\` + data.feedback[i].id + \`" class="btn btn-outline-success">Комментировать</a>
+    <a href="/feedback/view/?id=` + data.feedback[i].id + `" class="btn btn-outline-success">Комментировать</a>
     </div>
     <hr>
 `;
