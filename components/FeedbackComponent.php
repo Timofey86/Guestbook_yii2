@@ -22,11 +22,8 @@ class FeedbackComponent extends BaseObject
     {
         $model->user_id = \Yii::$app->user->identity->getId();
 
-        if (!$model->validate()) {
-            return false;
-        }
-        if (!$model->save()) {
-            return false;
+        if ($model->validate()) {
+            $model->save();
         }
 
         $model->image = UploadedFile::getInstances($model, 'image');
