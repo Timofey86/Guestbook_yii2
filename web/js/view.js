@@ -3,7 +3,7 @@ $(document).ready(function () {
     let feedback_id = document.querySelector('.feedback_id').getAttribute('data-attr');
     $('.form').submit(function (event) {
         event.preventDefault();
-        $('#comments').html('');
+        //$('#comments').html('');
         count = count + 5;
 
         $.ajax({
@@ -24,7 +24,7 @@ $(document).ready(function () {
                         }
                         layout += `
 <div>
-    <p>` + (i+1) + `Автор: ` + data.comment[i].user.name + `</p>
+    <p>` + (i+6) + `Автор: ` + data.comment[i].user.name + `</p>
     <p>Комментарий: <strong>` + data.comment[i].message + `</strong></p>
     <ul>                    
     ` + images + `

@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\components\ImageLoaderComponent;
 use app\modules\admin\models\Imgforcomments;
 use Yii;
 use app\modules\admin\models\Comments;
@@ -9,6 +10,7 @@ use app\modules\admin\models\search\CommentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CommentController implements the CRUD actions for Comments model.
@@ -67,11 +69,17 @@ class CommentController extends Controller
     {
         $model = new Comments();
         if ($this->request->isPost) {
-//            $model->user_id = \Yii::$app->user->identity->getId();
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                $model->image = UploadedFile::getInstances($model, 'image');
+                $component = \Yii::createObject(['class' => ImageLoaderComponent::class]);
+                if ($component->loadImages($model)) {
+                    $const = 'IMG';
+                    $component->saveImages($model->image, $model->id, $const);
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-        }else {
+        } else {
             $model->loadDefaultValues();
         }
 
@@ -109,13 +117,22 @@ class CommentController extends Controller
      */
     public function actionDelete($id)
     {
-        $images = Imgforcomments::find()->andWhere(['comment_id'=>$id])->all();
-        foreach ($images as $image){
+        $images = Imgforcomments::find()->andWhere(['comment_id' => $id])->all();
+        foreach ($images as $image) {
             $dir = \Yii::getAlias('@webroot/images/');
-            unlink($dir.$image->name);
+            unlink($dir . $image->name);
         }
-        $this->findModel($id)->delete();
-        Imgforcomments::deleteAll(['comment_id' => $id]);
+
+        $trans = $this->getDb()->beginTransaction();
+        try {
+            $this->findModel($id)->delete();
+            Imgforcomments::deleteAll(['comment_id' => $id]);
+            $trans->commit();
+
+        } catch (\Exception $e) {
+            $trans->rollBack();
+        }
+
         return $this->redirect(['index']);
     }
 
@@ -128,10 +145,15 @@ class CommentController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Comments::find()->with(['imgforcomments','user'])->andWhere(['id' => $id])->one()) !== null) {
+        if (($model = Comments::find()->with(['imgforcomments', 'user'])->andWhere(['id' => $id])->one()) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function getDb()
+    {
+        return \Yii::$app->db;
     }
 }

@@ -31,6 +31,7 @@ return [
     'Password Hash' => 'Хэш Пароля',
     'Updated At' => 'Дата Изменения',
     'Password Confirm' => 'Повторите Пароль',
+    'Admin' => 'Панель Администратора',
 
 
 

@@ -22,9 +22,13 @@ use yii\bootstrap4\Breadcrumbs;
                 <div class="col-sm-6">
                     <?php
                     echo Breadcrumbs::widget([
+                            'homeLink' => [
+                                    'label' => 'Главная',
+                                    'url' => '/admin/admin/index',
+                            ],
                         'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                         'options' => [
-                            'class' => 'breadcrumb float-sm-right'
+                            'class' => 'breadcrumb justify-content-left'
                         ]
                     ]);
                     ?>

@@ -11,6 +11,7 @@ use app\modules\admin\models\Images;
 use yii\widgets\Pjax;
 use yii\bootstrap4\ActiveForm;
 
+$this->title = 'Добавить отзыв';
 ?>
 
 <div class="row">

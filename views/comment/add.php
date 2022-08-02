@@ -4,8 +4,11 @@
 use yii\bootstrap4\ActiveForm;
 use yii\widgets\Pjax;
 
+
 /* @var $this \yii\web\View */
 /* @var $model */
+
+$this->title = 'Добавить комментарий';
 ?>
 <div class="row">
     <div class="col-md-6">

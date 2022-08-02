@@ -6,8 +6,8 @@
 
 use yii\widgets\Pjax;
 use yii\bootstrap4\Html;
-use yii\helpers\Url;
-use yii\web\JqueryAsset;
+
+$this->title = Yii::t('app', 'Feedbacks');
 ?>
 
 <?php Pjax::begin([
@@ -26,11 +26,11 @@ use yii\web\JqueryAsset;
 
 <div id="feedbacks">
     <?php if (count($feedbackall) == 0): ?>
-        <h3><?php echo 'Отзывов нет :( ' ?></h3>
+        <h3><?php echo '' ?></h3>
     <?php endif; ?>
-    <?php foreach ($feedbackall as $feedback): ?>
+    <?php foreach ($feedbackall as $key => $feedback): ?>
         <div>
-            <?= Html::tag('p', $feedback->id . ' Автор: ' . $feedback->user->name) ?>
+            <?= Html::tag('p', $key + 1 . ' Автор: ' . $feedback->user->name) ?>
             <p>отзыв:<strong><?= Html::encode($feedback->message) ?> </strong></p>
             <?php $images = $feedback->images; ?>
             <?php if (!empty($images)): ?>
@@ -42,26 +42,26 @@ use yii\web\JqueryAsset;
             <?php endif; ?>
             <h4><strong>Комментарии: </strong></h4>
             <p>
-            <?php $comments = $feedback->comments; ?>
-            <?php if (!empty($comments)) : ?>
+                <?php $comments = $feedback->comments; ?>
+                <?php if (!empty($comments)) : ?>
                 <?php foreach ($comments as $one): ?>
-                    <?= Html::tag('p', ' Автор: ' . $one->user->name) ?>
-                    <p>Комментарий: <strong><?= Html::encode($one->message) ?> </strong></p>
-                    <?php $img = $one->imgforcomments; ?>
-                    <?php if (!empty($img)): ?>
-                        <?php foreach ($img as $key): ?>
-                            <ul>
-                                <li><?= Html::img('/images/' . $key->name, ['width' => 75, 'height' => 60]) ?></li>
-                            </ul>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            <?php else: ?>
+                <?= Html::tag('p', ' Автор: ' . $one->user->name) ?>
+            <p>Комментарий: <strong><?= Html::encode($one->message) ?> </strong></p>
+        <?php $img = $one->imgforcomments; ?>
+        <?php if (!empty($img)): ?>
+            <?php foreach ($img as $key): ?>
+                <ul>
+                    <li><?= Html::img('/images/' . $key->name, ['width' => 75, 'height' => 60]) ?></li>
+                </ul>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <?php endforeach; ?>
+        <?php else: ?>
             <strong>
-                <?php echo 'Отсутствуют :( ' ?>
+                <?php echo 'Комментарии отсутствуют :( ' ?>
             </strong>
-                <br>
-            <?php endif; ?>
+            <br>
+        <?php endif; ?>
             </p>
             <br>
             <div>

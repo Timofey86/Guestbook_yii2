@@ -6,6 +6,9 @@
 use yii\bootstrap4\Html;
 use yii\widgets\Pjax;
 
+$this->title = $model['id'];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app','Feedbacks'), 'url' => ['all']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php  $feedback_id = $model['id'] ?>
     <div class="feedback_id" data-attr="<?=$feedback_id;?>">

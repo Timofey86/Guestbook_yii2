@@ -21,7 +21,7 @@ class CommentSearch extends Comments
     {
         return [
             [['id', 'user_id', 'feedback_id'], 'integer'],
-            [['message', /*'date_add', 'updated_at',*/ 'user.name', 'feedback.message', 'feedback'], 'safe'],
+            [['message', 'user.name', 'feedback.message', 'feedback'], 'safe'],
             [['date_to', 'date_from'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -106,7 +106,7 @@ class CommentSearch extends Comments
             //          'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'message', $this->message]);
+        $query->andFilterWhere(['like', 'comment.message', $this->message]);
         $query->andFilterWhere(['LIKE', 'user.name', $this->getAttribute('user.name')])
             ->andFilterWhere(['LIKE', 'feedback.message', $this->getAttribute('feedback.message')]);
 //            ->andFilterWhere(['LIKE', 'feedback', $this->getAttribute('feedback')]);

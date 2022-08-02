@@ -3,15 +3,13 @@
 namespace app\controllers;
 
 use app\components\AuthComponent;
-use app\modules\admin\models\Users;
 use yii\web\Controller;
 
 class AuthController extends Controller
 {
     public function actionSignUp()
     {
-        $component = \Yii::createObject(['class' => AuthComponent::class]);
-        /** @var Users $model */
+        $component = new AuthComponent();
         $model = $component->getModel();
 
         if (\Yii::$app->request->isPost) {
@@ -26,7 +24,7 @@ class AuthController extends Controller
 
     public function actionSignIn()
     {
-        $component = \Yii::createObject(['class' => AuthComponent::class]);
+        $component = new AuthComponent();
         $model = $component->getModel();
 
         if (\Yii::$app->request->isPost) {

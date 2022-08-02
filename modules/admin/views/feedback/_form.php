@@ -15,6 +15,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'message')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'user_id')->dropDownList(\app\modules\admin\models\Users::getListName()) ?>
+    <?= $form->field($model, 'image[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
 
 <!--    --><?//= $form->field($model, 'date_add')->textInput() ?>
 

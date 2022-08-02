@@ -17,6 +17,7 @@ use yii\bootstrap4\ActiveForm;
     <?= $form->field($model, 'user_id')->dropdownList(\app\modules\admin\models\Users::getListName()) ?>
 
     <?= $form->field($model, 'feedback_id')->dropdownList(\app\modules\admin\models\Feedback::getListFeedback()) ?>
+    <?= $form->field($model, 'image[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
 
 <!--    --><?//= $form->field($model, 'date_add')->textInput() ?>
 

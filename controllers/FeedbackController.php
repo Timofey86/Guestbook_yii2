@@ -20,7 +20,7 @@ class FeedbackController extends Controller
 
     public function actionAdd()
     {
-        $component = \Yii::createObject(['class' => FeedbackComponent::class]);
+        $component = new FeedbackComponent();
         if (\Yii::$app->user->isGuest) {
             throw new HttpException('Требуется авторизация');
         }
@@ -28,8 +28,8 @@ class FeedbackController extends Controller
 
         if (\Yii::$app->request->isPost) {
             $model = $component->getModel(\Yii::$app->request->post());
-
-            if ($component->addFeedback($model)) {
+            $variable = 'Feedback';
+            if ($component->addFeedback($model, $variable)) {
                 return $this->redirect(Url::to(['feedback/all']));
             }
         }
@@ -42,8 +42,7 @@ class FeedbackController extends Controller
     public function actionView($id)
     {
         $model = Feedback::find()->andWhere(['id' => $id])->with('images', 'user')->asArray()->one();
-        $model_comments = Comments::find()->andWhere(['feedback_id' => $id])->with('user', 'imgforcomments')->limit(5)->asArray()->all();
-        $model['comments'] = $model_comments;
+        $model['comments'] = Comments::find()->andWhere(['feedback_id' => $id])->with('user', 'imgforcomments')->limit(5)->asArray()->all();
 
         if ($model === null) {
             throw new NotFoundHttpException();
@@ -53,12 +52,15 @@ class FeedbackController extends Controller
 
     public function actionAll()
     {
-        $component = \Yii::createObject(['class' => FeedbackComponent::class]);
+        $component = new FeedbackComponent();
         $model = $component->getModel();
+
         if (\Yii::$app->request->isAjax) {
             $count = \Yii::$app->request->post();
             $count = ArrayHelper::getValue($count, 'count');
-            $feedbackall = $component->getFeedbacksAllAsArray($model, $count);
+            $const = 'Array';
+
+            $feedbackall = $component->getFeedbacksAllAsModel($model, $count, $const);
             if ((count($feedbackall) % 5 == 0) && (count($feedbackall) > 0)) {
                 $data = [
                     'status' => true,
@@ -76,10 +78,11 @@ class FeedbackController extends Controller
                 ];
                 return Json::encode($data);
             }
-
         }
+
         $count = 0;
-        $feedbackall = $component->getFeedbacksAllAsModel($model, $count);
+        $const = 'Model';
+        $feedbackall = $component->getFeedbacksAllAsModel($model, $count, $const);
         return $this->render('all', ['feedbackall' => $feedbackall]);
     }
 }

@@ -2,7 +2,7 @@ $(document).ready(function () {
     let count = 0;
     $('.form').submit(function (event) {
         event.preventDefault();
-        $('#feedbacks').html('');
+        //$('#feedbacks').html('');
         count = count + 5;
         $.ajax({
             url: '/feedback/all',
@@ -22,7 +22,7 @@ $(document).ready(function () {
                         }
                         layout += `
 <div>
-    <p>` + data.feedback[i].id + `. Автор: ` + data.feedback[i].user.name + `</p>
+    <p>` + (i+6) + `. Автор: ` + data.feedback[i].user.name + `</p>
     <p>Отзыв: <strong>` + data.feedback[i].message + `</strong></p>
     <ul>                    
     ` + images + `

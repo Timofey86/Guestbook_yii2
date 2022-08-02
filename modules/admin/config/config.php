@@ -4,6 +4,9 @@ return [
     'components' => [
         'aliases'=>[
             ],
+        'errorHandler' => [
+            'errorAction' => 'site/error',
+            ],
         'view' => [
             'theme' => [
                 'pathMap' => [

@@ -2,11 +2,12 @@
 
 
 /* @var $this \yii\web\View */
+
 /* @var $model */
 
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
-
+$this->title = 'Авторизация';
 ?>
 
 <div class="row">

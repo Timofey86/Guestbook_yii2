@@ -18,32 +18,46 @@ class FeedbackComponent extends BaseObject
         return $model;
     }
 
-    public function addFeedback(Feedback $model):bool
+    public function addFeedback($model, $variable): bool
     {
         $model->user_id = \Yii::$app->user->identity->getId();
+        if ($variable === 'Feedback') {
 
-        if ($model->validate()) {
-            $model->save();
-        }
+            if ($model->validate()) {
+                $model->save();
+            }
 
-        $model->image = UploadedFile::getInstances($model, 'image');
-        $component = \Yii::createObject(['class' => ImageLoaderComponent::class]);
-        if ($component->loadImages($model)) {
-            $const = 'Images';
-            $component->saveImages($model->image, $model->id, $const);
+            $model->image = UploadedFile::getInstances($model, 'image');
+            $component = \Yii::createObject(['class' => ImageLoaderComponent::class]);
+            if ($component->loadImages($model)) {
+                $const = 'Images';
+                $component->saveImages($model->image, $model->id, $const);
+            }
+
+        } elseif ($variable === 'Comment') {
+            if ($model->validate()) {
+                $model->save();
+            }
+
+            $model->image = UploadedFile::getInstances($model, 'image');
+            $component = \Yii::createObject(['class' => ImageLoaderComponent::class]);
+            if ($component->loadImages($model)) {
+                $const = 'IMG';
+                $component->saveImages($model->image, $model->id, $const);
+            }
         }
         return true;
     }
 
-    public function getFeedbacksAllAsModel($model, $count)
+    public function getFeedbacksAllAsModel($model, $count, $const)
     {
-        return $model::find()->with(['user', 'images', 'comments', 'imgforcomments'])
-            ->limit(5 + $count)->Offset(0 + $count)->orderBy('id DESC')->all();
+        if ($const === 'Model') {
+            return $model::find()->with(['user', 'images', 'comments', 'imgforcomments'])
+                ->limit(5 + $count)->Offset(0 + $count)->orderBy('id DESC')->all();
+        } elseif ($const === 'Array') {
+            return $model::find()->with(['user', 'comments', 'images', 'imgforcomments'])
+                ->limit(5 + $count)->Offset($count)->orderBy('id DESC')->asArray()->all();
+        }
     }
 
-    public function getFeedbacksAllAsArray($model, $count)
-    {
-        return $model::find()->with(['user', 'comments', 'images', 'imgforcomments'])
-            ->limit(5 + $count)->Offset($count)->orderBy('id DESC')->asArray()->all();
-    }
 }

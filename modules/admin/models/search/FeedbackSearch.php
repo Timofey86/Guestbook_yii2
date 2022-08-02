@@ -20,8 +20,8 @@ class FeedbackSearch extends Feedback
     public function rules()
     {
         return [
-            [['id', 'user_id', /*'date_to', 'date_from','date_add'*/], 'integer'],
-            [['message', 'user.name', /*'date_add'*/], 'safe'],
+            [['id', 'user_id'], 'integer'],
+            [['message', 'user.name'], 'safe'],
             [['date_to', 'date_from'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -90,29 +90,13 @@ class FeedbackSearch extends Feedback
 
         $query->andFilterWhere(['like', 'message', $this->message])
             ->andFilterWhere(['LIKE', 'user.name', $this->getAttribute('user.name')]);
-//        $query->andFilterWhere(['>=', 'feedback.date_add', $this->date_from ? strtotime($this->date_from . ' 00:00:00') : null])
-//            ->andFilterWhere(['<=','feedback.date_add',$this->date_to ? strtotime($this->date_to . ' 23:59:59') : null]);
-//        if(isset($this->date_range) && $this->test != '')
-//        {
-//            $date_explode = explode(" - ", $this->date_range); // вся фишка тут, больше ничего сверъестественного
-//            $date1 = trim($date_explode[0]);
-//            $date2 = trim($date_explode[1]);
-//            $query->andFilterWhere(['between', 'date_rge', $date1, $date2]);
-//        }
-//        $query->andFilterWhere(['>=','date_add', $this->date_from ? \Yii::$app->formatter->asDate($this->date_from, 'Y-MM-dd') : null])
-//            ->andFilterWhere(['<=','date_add', $this->date_to ? \Yii::$app->formatter->asDate($this->date_to, 'Y-MM-dd') : null]);
-        //Fieldrange
-//        if (!empty($this->date_from) and !empty($this->date_to)) {
-//            $query->andFilterWhere(['and',['>','date_add',$this->date_from],['<','date_add',$this->date_to]]);
-//        }
+
 
         //newfieldrange работает, работает с DAtepicker, поле - дата пхп
         if (!empty($this->date_from) and !empty($this->date_to)){
-        //$create = \Yii::$app->formatter->asDate($this->date_from, 'php:Y-m-d');
-       //$update = \Yii::$app->formatter->asDate($this->date_to, 'php:Y-m-d');
-        $query->andFilterWhere(['>=', 'feedback.date_add', $this->date_from])->andFilterWhere(['<=', 'feedback.date_add', $this->date_to]);
+            $query->andFilterWhere(['>=', 'feedback.date_add', $this->date_from])->andFilterWhere(['<=', 'feedback.date_add', $this->date_to]);
     }
-//        var_dump($dataProvider->query->createCommand()->rawSql);
+
         return $dataProvider;
     }
 }

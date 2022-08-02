@@ -39,7 +39,7 @@ AppAsset::register($this);
         'items' => [
             //['label' => 'Home', 'url' => ['/site/index']],
             Yii::$app->authManager->checkAccess(\Yii::$app->user->id,'admin') ? (
-            ['label' => 'Админка', 'url' => ['/admin/feedback']]) :(''),
+            ['label' => 'Админка', 'url' => ['/admin/admin/index']]) :(''),
             ['label' => 'Отзывы', 'url' => ['/feedback/all']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Вход', 'url' => ['/auth/sign-in']]

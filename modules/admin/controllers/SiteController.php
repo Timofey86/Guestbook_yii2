@@ -2,7 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
-use app\models\LoginForm;
+
 use app\modules\admin\models\Users;
 use yii\web\Controller;
 use Yii;
@@ -10,6 +10,20 @@ use Yii;
 class SiteController extends Controller
 
 {
+
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         return $this->render('index');
@@ -32,6 +46,4 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-
-
 }
