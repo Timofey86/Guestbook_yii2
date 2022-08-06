@@ -6,6 +6,7 @@ namespace app\controllers;
 use app\components\FeedbackComponent;
 use app\modules\admin\models\Comments;
 use app\modules\admin\models\Feedback;
+use app\modules\admin\models\Like;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -83,6 +84,14 @@ class FeedbackController extends Controller
         $count = 0;
         $const = 'Model';
         $feedbackall = $component->getFeedbacksAllAsModel($model, $count, $const);
-        return $this->render('all', ['feedbackall' => $feedbackall]);
+        $isLike = Like::find()->andWhere(['user_id' => $user_id, 'feedback_id' => $feedback_id])->one();
+        $x = 0;
+        return $this->render('all', ['feedbackall' => $feedbackall,'isLike' => $isLike] );
     }
+
+//    public function isLike($user_id, $feedback_id){
+//        $isLike = Like::find()->andWhere(['user_id' => $user_id, 'feedback_id' => $feedback_id])->one();
+//        return $isLike;
+//
+//    }
 }

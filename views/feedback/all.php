@@ -4,11 +4,15 @@
  * @var $count integer
  */
 
+use app\modules\admin\models\Like;
 use yii\widgets\Pjax;
 use yii\bootstrap4\Html;
 
 $this->title = Yii::t('app', 'Feedbacks');
 ?>
+<pre>
+<!--    --><?php //var_dump($feedbackall)?>
+</pre>
 
 <?php Pjax::begin([
     'enablePushState' => false,
@@ -29,7 +33,9 @@ $this->title = Yii::t('app', 'Feedbacks');
         <h3><?php echo '' ?></h3>
     <?php endif; ?>
     <?php foreach ($feedbackall as $key => $feedback): ?>
-        <div>
+        <div><?php
+            $isLike = Like::find()->andWhere(['user_id' => Yii::$app->user->getId(), 'feedback_id' => $feedback->id])->one(); ?>
+<!--            <pre>--><?php //var_dump($isLike)?><!--</pre>-->
             <?= Html::tag('p', $key + 1 . ' Автор: ' . $feedback->user->name) ?>
             <p>отзыв:<strong><?= Html::encode($feedback->message) ?> </strong></p>
             <?php $images = $feedback->images; ?>
@@ -68,6 +74,7 @@ $this->title = Yii::t('app', 'Feedbacks');
                 <?php if ((\Yii::$app->authManager->checkAccess(\Yii::$app->user->id, 'admin')) || (Yii::$app->user->id == $feedback->user->id)): ?>
                     <?= Html::a('Комментировать', ['feedback/view', 'id' => $feedback->id], ['class' => 'btn btn-outline-success']) ?>
                 <?php endif; ?>
+                <button data-id="<?=$feedback->id?>" data-user="<?=$feedback->user->id?>" class="js-btn-like btn <?= $isLike ? 'btn-dark': 'btn-outline-dark' ?>">Like (<?=$feedback->count?>) </button>
             </div>
             <hr>
         </div>

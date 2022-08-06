@@ -16,6 +16,7 @@ use yii\helpers\ArrayHelper;
  * @property int $user_id
  * @property string $date_add
  * @property string $updated_at
+ * @property int $count
  *
  * @property Comments[] $comments
  * @property Images[] $images
@@ -24,6 +25,7 @@ use yii\helpers\ArrayHelper;
 class Feedback extends \yii\db\ActiveRecord
 {
     public $image;
+
     /**
      * {@inheritdoc}
      */
@@ -39,7 +41,7 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return [
             [['message', 'user_id'], 'required'],
-            [['user_id'], 'integer'],
+            [['user_id','count'], 'integer'],
             [['date_add', 'updated_at'], 'safe'],
             [['message'], 'string', 'max' => 300],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -104,6 +106,16 @@ class Feedback extends \yii\db\ActiveRecord
     public function getImages()
     {
         return $this->hasMany(Images::className(), ['feedback_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Likes]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLikes()
+    {
+        return $this->hasMany(Like::className(), ['feedback_id' => 'id']);
     }
 
     /**

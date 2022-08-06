@@ -4,6 +4,7 @@ $(document).ready(function () {
         event.preventDefault();
         //$('#feedbacks').html('');
         count = count + 5;
+
         $.ajax({
             url: '/feedback/all',
             type: 'POST',
@@ -14,7 +15,29 @@ $(document).ready(function () {
             success(data) {
                 if (data.status) {
                     let layout = '';
+                    let isliked = 0;
                     for (let i = 0; i < data.feedback.length; i++) {
+                        let feedback_id = data.feedback[i].id;
+                        console.log(111);
+                        $.ajax({
+                            url: '/like/check',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                feedback_id: feedback_id
+
+                            },
+                            success(result){
+                                if (result.status){
+                                    console.log(result);
+                                    isliked = result['liked'];
+                                    console.log(222);
+
+
+                                }
+                            }
+                        })
+                        console.log(333);
                         let images = '';
 
                         for (let j = 0; j < data.feedback[i].images.length; j++) {
@@ -22,7 +45,7 @@ $(document).ready(function () {
                         }
                         layout += `
 <div>
-    <p>` + (i+6) + `. Автор: ` + data.feedback[i].user.name + `</p>
+    <p>` + (i + 6) + `. Автор: ` + data.feedback[i].user.name + `</p>
     <p>Отзыв: <strong>` + data.feedback[i].message + `</strong></p>
     <ul>                    
     ` + images + `
@@ -51,16 +74,22 @@ $(document).ready(function () {
                             layout += `<p><strong>` + "Комментарии отсутствуют :(" + `</strong></p>`
 
                         }
+
                         layout += `
 </div>
 <div>
-    <a href="/feedback/view/?id=` + data.feedback[i].id + `" class="btn btn-outline-success">Комментировать</a>
+    <a href="/feedback/view/?id=` + data.feedback[i].id + `" class="btn btn-outline-success">Комментировать</a>`;
+
+                            layout += `
+    <button data-id="${data.feedback[i].id}" class="js-btn-like btn ${isliked ? ' btn-dark ' : ' btn-outline-dark '}">Like (${data.feedback[i].count}) </button> 
     </div>
     <hr>
 `;
+
+
                     }
                     $('#feedbacks').append(layout);
-                    console.log(data);
+                    //console.log(data);
                 }
                 if (!data.counts) {
                     $('#feedback').fadeOut();
@@ -69,4 +98,35 @@ $(document).ready(function () {
             }
         })
     });
+    $(document).on('click', '.js-btn-like', function (event) {
+        event.preventDefault();
+        //console.log('string');
+        let $this = $(this);
+        let feedback_id = $this.attr('data-id');
+
+        $.ajax({
+            url: '/like/add',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                feedback_id: feedback_id,
+
+            },
+            success(result) {
+                if (result.status) {
+                    console.log(result);
+                    console.log(result.model.count);
+                    $this.text('Like (' + result.model.count + ')');
+                    if ($this.hasClass('btn-dark')) {
+                        $this.removeClass('btn-dark').addClass('btn-outline-dark');
+                    } else {
+                        $this.addClass('btn-dark').removeClass('btn-outline-dark');
+                    }
+
+                }
+            }
+
+        })
+
+    })
 });

@@ -102,6 +102,16 @@ class Users extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Feedback::class, ['user_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[Likes]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLike()
+    {
+        return $this->hasMany(Like::class, ['user_id' => 'id']);
+    }
+
     public function getUsername()
     {
         return $this->name;
