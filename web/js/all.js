@@ -16,28 +16,11 @@ $(document).ready(function () {
                 if (data.status) {
                     let layout = '';
                     let isliked = 0;
+                    console.log(data);
                     for (let i = 0; i < data.feedback.length; i++) {
                         let feedback_id = data.feedback[i].id;
-                        console.log(111);
-                        $.ajax({
-                            url: '/like/check',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: {
-                                feedback_id: feedback_id
+                        isliked = data.liked[feedback_id];
 
-                            },
-                            success(result){
-                                if (result.status){
-                                    console.log(result);
-                                    isliked = result['liked'];
-                                    console.log(222);
-
-
-                                }
-                            }
-                        })
-                        console.log(333);
                         let images = '';
 
                         for (let j = 0; j < data.feedback[i].images.length; j++) {
@@ -80,7 +63,7 @@ $(document).ready(function () {
 <div>
     <a href="/feedback/view/?id=` + data.feedback[i].id + `" class="btn btn-outline-success">Комментировать</a>`;
 
-                            layout += `
+                        layout += `
     <button data-id="${data.feedback[i].id}" class="js-btn-like btn ${isliked ? ' btn-dark ' : ' btn-outline-dark '}">Like (${data.feedback[i].count}) </button> 
     </div>
     <hr>
@@ -98,6 +81,7 @@ $(document).ready(function () {
             }
         })
     });
+
     $(document).on('click', '.js-btn-like', function (event) {
         event.preventDefault();
         //console.log('string');

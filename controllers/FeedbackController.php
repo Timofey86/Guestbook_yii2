@@ -4,6 +4,7 @@ namespace app\controllers;
 
 
 use app\components\FeedbackComponent;
+use app\components\LikeComponent;
 use app\modules\admin\models\Comments;
 use app\modules\admin\models\Feedback;
 use app\modules\admin\models\Like;
@@ -62,11 +63,23 @@ class FeedbackController extends Controller
             $const = 'Array';
 
             $feedbackall = $component->getFeedbacksAllAsModel($model, $count, $const);
+            $lenghtFeedbacks = $model::find()->orderBy('id DESC')->asArray()->all();
+            $liked = [];
+            $user_id = \Yii::$app->user->getId();
+            $comp = new LikeComponent();
+
+            foreach ($feedbackall as $key => $feedback) {
+                $feedback_id = $feedback['id'];
+                $isLiked = $comp->isLike($feedback_id, $user_id);
+                $liked += [$feedback_id => $isLiked];
+
+            }
             if ((count($feedbackall) % 5 == 0) && (count($feedbackall) > 0)) {
                 $data = [
                     'status' => true,
                     'feedback' => $feedbackall,
                     'message' => 'Feedback received',
+                    'liked' => $liked,
                     'counts' => true,
                 ];
                 return Json::encode($data);
@@ -75,6 +88,7 @@ class FeedbackController extends Controller
                     'status' => true,
                     'feedback' => $feedbackall,
                     'message' => 'Feedback received',
+                    'liked' => $liked,
                     'counts' => false,
                 ];
                 return Json::encode($data);
@@ -84,14 +98,7 @@ class FeedbackController extends Controller
         $count = 0;
         $const = 'Model';
         $feedbackall = $component->getFeedbacksAllAsModel($model, $count, $const);
-        $isLike = Like::find()->andWhere(['user_id' => $user_id, 'feedback_id' => $feedback_id])->one();
-        $x = 0;
-        return $this->render('all', ['feedbackall' => $feedbackall,'isLike' => $isLike] );
-    }
 
-//    public function isLike($user_id, $feedback_id){
-//        $isLike = Like::find()->andWhere(['user_id' => $user_id, 'feedback_id' => $feedback_id])->one();
-//        return $isLike;
-//
-//    }
+        return $this->render('all', ['feedbackall' => $feedbackall]);
+    }
 }

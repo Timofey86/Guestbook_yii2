@@ -17,12 +17,12 @@ class LikeComponent extends BaseObject
         return $model;
     }
 
-    public function isLike($feedback_id,$user_id)
+    public function isLike($feedback_id, $user_id)
     {
         $isLike = Like::find()->andWhere(['user_id' => $user_id, 'feedback_id' => $feedback_id])->one();
-        if ($isLike ==! null){
+        if ($isLike == !null) {
             return true;
-        } else{
+        } else {
             return false;
         }
     }
@@ -31,7 +31,8 @@ class LikeComponent extends BaseObject
     {
         $model = Like::find()->andWhere(['user_id' => $user_id, 'feedback_id' => $feedback_id])->one();
         $feedback_model = Feedback::find()->andWhere(['id' => $feedback_id])->one();
-        if (!$model){
+
+        if (!$model) {
             $model = new Like();
             $model->user_id = $user_id;
             $model->feedback_id = $feedback_id;
@@ -39,6 +40,7 @@ class LikeComponent extends BaseObject
             $feedback_model->count += 1;
             $feedback_model->save();
             return true;
+
         } else {
             $feedback_model->count -= 1;
             $feedback_model->save();
