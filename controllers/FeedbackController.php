@@ -63,7 +63,7 @@ class FeedbackController extends Controller
             $const = 'Array';
 
             $feedbackall = $component->getFeedbacksAllAsModel($model, $count, $const);
-            $lenghtFeedbacks = $model::find()->orderBy('id DESC')->asArray()->all();
+
             $liked = [];
             $user_id = \Yii::$app->user->getId();
             $comp = new LikeComponent();
@@ -74,7 +74,18 @@ class FeedbackController extends Controller
                 $liked += [$feedback_id => $isLiked];
 
             }
-            if ((count($feedbackall) % 5 == 0) && (count($feedbackall) > 0)) {
+            $lenght_feedbacks = count($model::find()->orderBy('id DESC')->asArray()->all());
+            if ((count($feedbackall) % 5 == 0) && ((count($feedbackall) + $count)) == $lenght_feedbacks) {
+                $data = [
+                    'status' => true,
+                    'feedback' => $feedbackall,
+                    'message' => 'Feedback received',
+                    'liked' => $liked,
+                    'counts' => false,
+                ];
+                return Json::encode($data);
+
+            } elseif (count($feedbackall) % 5 == 0) {
                 $data = [
                     'status' => true,
                     'feedback' => $feedbackall,
@@ -83,6 +94,7 @@ class FeedbackController extends Controller
                     'counts' => true,
                 ];
                 return Json::encode($data);
+
             } else {
                 $data = [
                     'status' => true,
@@ -98,7 +110,14 @@ class FeedbackController extends Controller
         $count = 0;
         $const = 'Model';
         $feedbackall = $component->getFeedbacksAllAsModel($model, $count, $const);
+        $lenght_feedbacks = count($component->getCountFeedbacksAll($model));
 
-        return $this->render('all', ['feedbackall' => $feedbackall]);
+        if (count($feedbackall) == $lenght_feedbacks) {
+            $lastFeedbacks = true;
+        } else {
+            $lastFeedbacks = false;
+        }
+
+        return $this->render('all', ['feedbackall' => $feedbackall, 'lastFeedbacks' => $lastFeedbacks]);
     }
 }

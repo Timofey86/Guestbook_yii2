@@ -56,8 +56,13 @@ class FeedbackComponent extends BaseObject
                 ->limit(5 + $count)->Offset(0 + $count)->orderBy('id DESC')->all();
         } elseif ($const === 'Array') {
             return $model::find()->with(['user', 'comments', 'images', 'imgforcomments'])
-                ->limit(5 + $count)->Offset($count)->orderBy('id DESC')->asArray()->all();
+                ->limit(5)->Offset($count)->orderBy('id DESC')->asArray()->all();
         }
+    }
+
+    public function getCountFeedbacksAll($model)
+    {
+        return $model::find()->orderBy('id DESC')->asArray()->all();
     }
 
 }

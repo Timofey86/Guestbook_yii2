@@ -1,10 +1,11 @@
 $(document).ready(function () {
     let count = 0;
+    let p = 0;
     $('.form').submit(function (event) {
         event.preventDefault();
         //$('#feedbacks').html('');
         count = count + 5;
-
+        p = count;
         $.ajax({
             url: '/feedback/all',
             type: 'POST',
@@ -16,8 +17,10 @@ $(document).ready(function () {
                 if (data.status) {
                     let layout = '';
                     let isliked = 0;
+
                     console.log(data);
                     for (let i = 0; i < data.feedback.length; i++) {
+                        p++;
                         let feedback_id = data.feedback[i].id;
                         isliked = data.liked[feedback_id];
 
@@ -28,7 +31,7 @@ $(document).ready(function () {
                         }
                         layout += `
 <div>
-    <p>` + (i + 6) + `. Автор: ` + data.feedback[i].user.name + `</p>
+    <p>` + (p) + `. Автор: ` + data.feedback[i].user.name + `</p>
     <p>Отзыв: <strong>` + data.feedback[i].message + `</strong></p>
     <ul>                    
     ` + images + `

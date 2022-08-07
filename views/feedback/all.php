@@ -2,6 +2,7 @@
 
 /* @var $feedbackall \app\modules\admin\models\Feedback
  * @var $count integer
+ * @var $lastFeedbacks bool
  */
 
 use app\modules\admin\models\Like;
@@ -82,7 +83,7 @@ $this->title = Yii::t('app', 'Feedbacks');
 </div>
 <?php Pjax::end(); ?>
 <br>
-<?php if (count($feedbackall) == 5): ?>
+<?php if (count($feedbackall) == 5 && $lastFeedbacks === false ): ?>
     <div class="container">
         <form class="form">
             <button class="btn btn-outline-info" id="feedback" type="submit">Получить еще отзывы</button>
