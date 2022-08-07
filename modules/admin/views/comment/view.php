@@ -35,10 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             'user.name',
                             ['attribute' => 'feedback',
                                 'value' => function ($model) {
-                                return $model->feedback->message;
+                                return $model->feedback->feedback;
                                 }
                             ],
-//                            'feedback.message',
                             [
                                 'attribute' => 'images',
                                 'value' => function ($model) {

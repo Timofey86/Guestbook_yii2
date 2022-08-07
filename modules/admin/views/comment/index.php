@@ -35,11 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'id',
                             'message',
                             'user.name',
-//                            'feedback_id',
-//                            ['attribute' => 'feedback',
-//                                'value' => 'feedback.message'
-//                                ],
-                            'feedback.message',
+                            'feedback.feedback',
                             [//работает с датой пхп а не интеджер
                                 'filter' => DatePicker::widget([
                                     'model' => $searchModel,

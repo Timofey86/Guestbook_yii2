@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'message') ?>
+    <?= $form->field($model, 'feedback') ?>
 
     <?= $form->field($model, 'user_id') ?>
 

@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "feedback".
  *
  * @property int $id
- * @property string $message
+ * @property string $feedback
  * @property int $user_id
  * @property string $date_add
  * @property string $updated_at
@@ -40,13 +40,13 @@ class Feedback extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['message', 'user_id'], 'required'],
+            [['feedback', 'user_id'], 'required'],
             [['user_id','count'], 'integer'],
             [['date_add', 'updated_at'], 'safe'],
-            [['message'], 'string', 'max' => 300],
+            [['feedback'], 'string', 'max' => 300],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['image', 'file', 'mimeTypes' => 'image/*', 'maxFiles' => 5],
-            [['message'], 'trim'],
+            [['feedback'], 'trim'],
         ];
     }
 
@@ -57,7 +57,7 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'message' => Yii::t('app', 'Message'),
+            'feedback' => Yii::t('app', 'Feedback'),
             'user_id' => Yii::t('app', 'User ID'),
             'date_add' => Yii::t('app', 'Date Add'),
             'imagesAsString' => Yii::t('app', 'ImagesAsString'),
@@ -142,7 +142,7 @@ class Feedback extends \yii\db\ActiveRecord
 
     public static function getListFeedback():array
     {
-        return ArrayHelper::map(self::find()->all(),'id','message');
+        return ArrayHelper::map(self::find()->all(),'id','feedback');
     }
 
     public function setUserId()

@@ -21,7 +21,7 @@ class FeedbackSearch extends Feedback
     {
         return [
             [['id', 'user_id'], 'integer'],
-            [['message', 'user.name'], 'safe'],
+            [['feedback', 'user.name'], 'safe'],
             [['date_to', 'date_from'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -88,7 +88,7 @@ class FeedbackSearch extends Feedback
 //            'date_add' => $this->date_add,
         ]);
 
-        $query->andFilterWhere(['like', 'message', $this->message])
+        $query->andFilterWhere(['like', 'feedback', $this->feedback])
             ->andFilterWhere(['LIKE', 'user.name', $this->getAttribute('user.name')]);
 
 

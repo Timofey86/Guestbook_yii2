@@ -22,7 +22,7 @@ $this->title = 'Добавить отзыв';
         <?php $form = ActiveForm::begin([
             'method' => 'POST'
         ]); ?>
-        <?= $form->field($model, 'message')->textarea(); ?>
+        <?= $form->field($model, 'feedback')->textarea(); ?>
         <?= $form->field($model, 'image[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
         <div class="form-group">
             <button type="submit">Отправить</button>

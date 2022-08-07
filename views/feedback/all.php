@@ -37,7 +37,7 @@ $this->title = Yii::t('app', 'Feedbacks');
             $isLike = Like::find()->andWhere(['user_id' => Yii::$app->user->getId(), 'feedback_id' => $feedback->id])->one(); ?>
 <!--            <pre>--><?php //var_dump($isLike)?><!--</pre>-->
             <?= Html::tag('p', $key + 1 . ' Автор: ' . $feedback->user->name) ?>
-            <p>отзыв:<strong><?= Html::encode($feedback->message) ?> </strong></p>
+            <p>Отзыв:<strong><?= Html::encode($feedback->feedback) ?> </strong></p>
             <?php $images = $feedback->images; ?>
             <?php if (!empty($images)): ?>
                 <?php foreach ($images as $image): ?>

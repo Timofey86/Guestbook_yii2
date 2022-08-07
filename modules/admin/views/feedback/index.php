@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'message',
+            'feedback',
             'user.name',
             [//работает с датой пхп а не интеджер
                 'filter' => DatePicker::widget([

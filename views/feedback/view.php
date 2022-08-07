@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div id="feedbacks">
     <div>
         <?= Html::tag('p', 'Автор: ' . $model['user']['name']) ?>
-        <p>Отзыв: <strong><?= Html::encode($model['message']) ?> </strong></p>
+        <p>Отзыв: <strong><?= Html::encode($model['feedback']) ?> </strong></p>
         <?php $images = $model['images']; ?>
         <?php if (!empty($images)): ?>
             <?php foreach ($images as $image): ?>

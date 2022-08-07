@@ -14,7 +14,7 @@ class m220719_101917_createTableFeedback extends Migration
     {
         $this->createTable('feedback',[
             'id' => $this->primaryKey(),
-            'message' => $this->string(300)->notNull(),
+            'feedback' => $this->string(300)->notNull(),
             'user_id'=> $this->integer()->notNull(),
             'date_add' => $this->timestamp()->notNull()
                 ->defaultExpression('CURRENT_TIMESTAMP'),

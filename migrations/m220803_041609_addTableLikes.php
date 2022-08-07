@@ -23,7 +23,7 @@ class m220803_041609_addTableLikes extends Migration
             'id','CASCADE','CASCADE');
         $this->addForeignKey('like_feedbackFK','like','feedback_id','feedback'
             ,'id','CASCADE', 'CASCADE');
-        $this->addColumn('feedback','count',$this->integer()->null());
+        $this->addColumn('feedback','count',$this->integer()->notNull()->defaultValue(0));
 
     }
 
