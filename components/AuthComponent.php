@@ -3,10 +3,9 @@
 namespace app\components;
 
 use app\modules\admin\models\Users;
-use yii\base\BaseObject;
-use yii\base\Component;
 
-class AuthComponent extends BaseObject
+
+class AuthComponent
 {
     /**
      * @param $data

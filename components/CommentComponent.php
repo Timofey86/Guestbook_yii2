@@ -3,10 +3,10 @@
 namespace app\components;
 
 use app\modules\admin\models\Comments;
-use yii\base\BaseObject;
 
 
-class CommentComponent extends BaseObject
+
+class CommentComponent
 {
 
     public function getModel($data = [])

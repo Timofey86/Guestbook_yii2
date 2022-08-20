@@ -3,10 +3,9 @@
 namespace app\components;
 
 use app\modules\admin\models\Feedback;
-use yii\base\BaseObject;
 use yii\web\UploadedFile;
 
-class FeedbackComponent extends BaseObject
+class FeedbackComponent
 {
 
     public function getModel($data = [])

@@ -4,9 +4,9 @@ namespace app\components;
 
 use app\modules\admin\models\Feedback;
 use app\modules\admin\models\Like;
-use yii\base\BaseObject;
 
-class LikeComponent extends BaseObject
+
+class LikeComponent
 {
     public function getModel($data = [])
     {

@@ -75,7 +75,7 @@ $this->title = Yii::t('app', 'Feedbacks');
                 <?php if ((\Yii::$app->authManager->checkAccess(\Yii::$app->user->id, 'admin')) || (Yii::$app->user->id == $feedback->user->id)): ?>
                     <?= Html::a('Комментировать', ['feedback/view', 'id' => $feedback->id], ['class' => 'btn btn-outline-success']) ?>
                 <?php endif; ?>
-                <button data-id="<?=$feedback->id?>" data-user="<?=$feedback->user->id?>" class="js-btn-like btn <?= $isLike ? 'btn-dark': 'btn-outline-dark' ?>">Like (<?=$feedback->count?>) </button>
+                <button data-id="<?=$feedback->id?>" class="js-btn-like btn <?= $isLike ? 'btn-dark': 'btn-outline-dark' ?>">Like (<?=$feedback->count?>) </button>
             </div>
             <hr>
         </div>

@@ -4,11 +4,10 @@ namespace app\components;
 
 use app\modules\admin\models\Images;
 use app\modules\admin\models\Imgforcomments;
-use yii\base\BaseObject;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
-class ImageLoaderComponent extends BaseObject
+class ImageLoaderComponent
 {
     public function saveUploadedImage(UploadedFile $file): string
     {
